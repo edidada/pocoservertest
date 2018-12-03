@@ -1,8 +1,8 @@
 CXXFLAGS =	-O2 -g -Wall -fmessage-length=0
 
-OBJS =		pocoservertest.o
+OBJS =		pocoservertest.o T.o
 
-LIBS = -lPocoNet -lPocoFoundation -lPocoUtil
+LIBS = -lPocoNet -lPocoFoundation -lPocoUtil -lPocoJSON
 
 TARGET =	pocoservertest
 

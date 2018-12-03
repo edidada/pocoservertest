@@ -6,12 +6,23 @@
 #include <Poco/Net/HTTPServerRequest.h>
 #include <Poco/Net/HTTPServerResponse.h>
 #include <Poco/Util/ServerApplication.h>
+#include <Poco/JSON/Parser.h>
+
+#include "Poco/JSON/Object.h"
+#include "Poco/JSON/Parser.h"
+#include "Poco/JSON/Query.h"
+#include "Poco/JSON/JSONException.h"
+#include "Poco/JSON/Stringifier.h"
+#include "Poco/JSON/Template.h"
+#include "Poco/JSON/PrintHandler.h"
 
 #include <iostream>
 #include <string>
 #include <vector>
 
 using namespace std;
+using namespace Poco::Dynamic;
+using namespace Poco::JSON;
 using namespace Poco::Net;
 using namespace Poco::Util;
 
@@ -24,6 +35,40 @@ public:
 		resp.setContentType("text/html");
 
 		ostream & out = resp.send();
+
+		std::string json = "{ \"name\" : \"Franky\", \"children\" : [ \"Jonas\", \"Ellen\" ] }";
+		cout<<json<<endl;
+		Parser parser;
+		Var result = parser.parse(json);
+		// ... use result (see next example)
+		parser.reset();
+		std::ostringstream ostr;
+		PrintHandler::Ptr pHandler = new PrintHandler(ostr);
+		parser.setHandler(pHandler);
+		parser.parse(json);
+
+
+//	    std::string json = "{ \"test\" : 1969 }";
+//	    Poco::JSON::Parser parser;
+//	    Poco::DynamicAny result;
+//
+//	    try
+//	    {
+//	      DefaultHandler handler;
+//	      parser.setHandler(&handler);
+//	      parser.parse(json);
+//	      result = handler.result();
+//	    }
+//	    catch(Poco::JSON::JSONException jsone)
+//	    {
+//	      std::cout << jsone.message() << std::endl;
+//	    }
+//
+//
+//	    Poco::JSON::Object::Ptr object = result.extract<Poco::JSON::Object::Ptr>();
+//	    Poco::DynamicAny test = object->get("test");
+//	    int value = test;
+
 
 		out << "<h1>Hello World!</h1>";
 	}
